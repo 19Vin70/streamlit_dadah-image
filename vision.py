@@ -9,12 +9,9 @@ import google.generativeai as genai
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 
-def get_gemini_response(input,image):
+def get_gemini_response(image):
     model = genai.GenerativeModel('gemini-pro-vision')
-    if input!="":
-       response = model.generate_content([input,image])
-    else:
-       response = model.generate_content(image)
+    response = model.generate_content(image)
     return response.text
 
 
@@ -22,7 +19,7 @@ def get_gemini_response(input,image):
 st.set_page_config(page_title="Dadah AI", page_icon="🌌")
 
 st.header("Dadah AI")
-input=st.text_input("Input Prompt: ",key="input")
+
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 image=""   
 if uploaded_file is not None:
@@ -34,8 +31,6 @@ submit=st.button("Tell me about this image")
 
 
 if submit:
-    response=get_gemini_response(input,image)
+    response=get_gemini_response(image)
     st.subheader("Dadah AI")
     st.write(response)
-
-
